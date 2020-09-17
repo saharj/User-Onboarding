@@ -11,6 +11,7 @@ function Form(props) {
   const [checked, setChecked] = useState(false);
   const [activeBtn, setActiveBtn] = useState(false);
   const [errors, setErrors] = useState({
+    name: "",
     email: "",
     password: "",
     terms: "",
@@ -48,7 +49,7 @@ function Form(props) {
 
     validate(target.name, target.value);
 
-    if (target.name != "terms") {
+    if (target.name !== "terms") {
       setFormState({ ...formState, [target.name]: target.value });
     } else {
       setChecked(!checked);
@@ -61,60 +62,85 @@ function Form(props) {
     });
   }, [formState]);
 
-  useEffect(() => {
-    props.renderErrors(errors);
-  }, [errors]);
-
   return (
-    <form onSubmit={handleSubmit}>
-      <label htmlFor="nameInput">
-        Name
-        <input
-          id="nameInput"
-          type="string"
-          name="name"
-          value={formState.name}
-          placeholder="Full name"
-          onChange={onInputChange}
-        />
-      </label>
-      <label htmlFor="emailInput">
-        Email
-        <input
-          id="emailInput"
-          type="email"
-          name="email"
-          value={formState.email}
-          placeholder="Email"
-          onChange={onInputChange}
-        />
-      </label>
-      <label htmlFor="passwordInput">
-        Password
-        <input
-          id="passwordInput"
-          type="password"
-          name="password"
-          value={formState.password}
-          placeholder="Password"
-          onChange={onInputChange}
-        />
-      </label>
-      <label htmlFor="termsInput">
-        Do you agree to the terms and conditions?
-        <input
-          id="termsInput"
-          type="checkbox"
-          name="terms"
-          checked={checked}
-          onChange={onInputChange}
-        />
-      </label>
-      <button
-        className={`btn-primary btn ${activeBtn ? "active" : "disabled"}`}
-      >
-        Submit
-      </button>
+    <form onSubmit={handleSubmit} className="card form-horizontal">
+      <div className="form-group mb-2 mr-sm-2 mb-sm-0">
+        <label htmlFor="nameInput">
+          Name
+          <input
+            className="form-control col-md-12"
+            id="nameInput"
+            type="string"
+            name="name"
+            value={formState.name}
+            placeholder="Full name"
+            onChange={onInputChange}
+          />
+        </label>
+      </div>
+      <div className="form-group mb-2 mr-sm-2 mb-sm-0">
+        <label htmlFor="emailInput">
+          Email
+          <input
+            className="form-control col-md-12"
+            id="emailInput"
+            type="email"
+            name="email"
+            value={formState.email}
+            placeholder="Email"
+            onChange={onInputChange}
+          />
+        </label>
+      </div>
+      <div className="form-group mb-2 mr-sm-2 mb-sm-0">
+        <label htmlFor="passwordInput">
+          Password
+          <input
+            className="form-control col-md-12"
+            id="passwordInput"
+            type="password"
+            name="password"
+            value={formState.password}
+            placeholder="Password"
+            onChange={onInputChange}
+          />
+        </label>
+      </div>
+      <div className="form-group mb-3 mt-3 mr-sm-2 mb-sm-0">
+        <label htmlFor="termsInput">
+          Do you agree to the terms and conditions?
+          <input
+            className="terms"
+            id="termsInput"
+            type="checkbox"
+            name="terms"
+            checked={checked}
+            onChange={onInputChange}
+          />
+        </label>
+      </div>
+      <div className="row form-check mt-3">
+        <button
+          className={`btn ${
+            activeBtn ? "btn-success active" : "disabled btn-secondary"
+          }`}
+        >
+          Submit
+        </button>
+      </div>
+      {errors && (
+        <div className="mt-3">
+          {errors.name.length > 0 ? (
+            <p className="error text-danger">{errors.name}</p>
+          ) : null}
+          {errors.email.length > 0 ? (
+            <p className="error text-danger">{errors.email}</p>
+          ) : null}
+          {errors.password.length > 0 ? (
+            <p className="error text-danger">{errors.password}</p>
+          ) : null}
+        </div>
+      )}
     </form>
   );
 }
