@@ -55,4 +55,15 @@ describe("Input Navigation", function () {
     emailInput().should("have.value", "");
     checkbox().should("not.be.checked");
   });
+  it("user should not be able to submit a form if the form is not complete", function () {
+    nameInput().type("Johnny Smith").should("have.value", "Johnny Smith");
+
+    passwordInput().type("123456").should("have.value", "123456");
+
+    checkbox().check().should("be.checked");
+
+    submitBtn().should("have.class", "disabled");
+    submitBtn().click();
+    cy.contains(/Johnny Smith/).should("not.exist");
+  });
 });
